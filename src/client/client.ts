@@ -4,6 +4,7 @@ import Stats from 'three/examples/jsm/libs/stats.module';
 import { GUI } from 'three/examples/jsm/libs/dat.gui.module';
 
 const scene = new THREE.Scene();
+scene.add(new THREE.AxesHelper(5));
 
 const camera = new THREE.PerspectiveCamera(
   75,
@@ -18,7 +19,7 @@ renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
 
 const controls = new OrbitControls(camera, renderer.domElement);
-controls.addEventListener('change', render);
+//controls.addEventListener('change', render)
 
 const geometry = new THREE.BoxGeometry();
 const material = new THREE.MeshBasicMaterial({
@@ -42,19 +43,33 @@ document.body.appendChild(stats.dom);
 
 const gui = new GUI();
 const cubeFolder = gui.addFolder('Cube');
-cubeFolder.add(cube.rotation, 'x', 0, Math.PI * 2);
-cubeFolder.add(cube.rotation, 'y', 0, Math.PI * 2);
-cubeFolder.add(cube.rotation, 'z', 0, Math.PI * 2);
+const cubeRotationFolder = cubeFolder.addFolder('Rotation');
+cubeRotationFolder.add(cube.rotation, 'x', 0, Math.PI * 2);
+cubeRotationFolder.add(cube.rotation, 'y', 0, Math.PI * 2);
+cubeRotationFolder.add(cube.rotation, 'z', 0, Math.PI * 2);
 cubeFolder.open();
-const cameraFolder = gui.addFolder('Camera');
-cameraFolder.add(camera.position, 'z', 0, 10);
-cameraFolder.open();
+cubeRotationFolder.open();
+const cubePositionFolder = cubeFolder.addFolder('Position');
+cubePositionFolder.add(cube.position, 'x', -10, 10, 2);
+cubePositionFolder.add(cube.position, 'y', -10, 10, 2);
+cubePositionFolder.add(cube.position, 'z', -10, 10, 2);
+cubeFolder.open();
+cubePositionFolder.open();
+const cubeScaleFolder = cubeFolder.addFolder('Scale');
+cubeScaleFolder.add(cube.scale, 'x', -5, 5);
+cubeScaleFolder.add(cube.scale, 'y', -5, 5);
+cubeScaleFolder.add(cube.scale, 'z', -5, 5);
+cubeFolder.add(cube, 'visible');
+cubeFolder.open();
+cubeScaleFolder.open();
 
 function animate() {
   requestAnimationFrame(animate);
 
-  cube.rotation.x += 0.01;
-  cube.rotation.y += 0.01;
+  //stats.begin()
+  //cube.rotation.x += 0.01
+  //cube.rotation.y += 0.01
+  //stats.end()
 
   render();
 
@@ -66,3 +81,4 @@ function render() {
 }
 
 animate();
+//render()
